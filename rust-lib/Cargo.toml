@@ -9,7 +9,14 @@ repository = "https://github.com/Sayan751/email-address-parser"
 homepage = "https://github.com/Sayan751/email-address-parser"
 readme = "README.md"
 keywords = ["email-address", "parser", "rfc-5322", "rfc-6532"]
-exclude = ["build.rs", ".test_data", "benches", "tests", "Development.md"]
+exclude = [
+  "build.rs",
+  "build_impl.rs",
+  ".test_data",
+  "benches",
+  "tests",
+  "Development.md",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -26,7 +33,7 @@ wasm-bindgen = "^0.2.67"
 console_error_panic_hook = "^0.1.6"
 
 [build-dependencies]
-quick-xml = "^0.18.1"
+quick-xml = { version = "^0.18.1", optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dev-dependencies]
 wasm-bindgen-test = "^0.3.17"
@@ -39,6 +46,10 @@ wasm-opt = ["-Oz", "--enable-mutable-globals"]
 
 [profile.release]
 lto = true
+
+[features]
+# Generates tests through build.rs. Not available from crates.io.
+__generate_tests = ["dep:quick-xml"]
 
 [[bench]]
 path = "benches"
